@@ -1,0 +1,5 @@
+com\kadados\backend\repository\ClienteRepository.class
+com\kadados\backend\controller\ClienteController.class
+com\kadados\backend\KaBackendApplication.class
+com\kadados\backend\service\ClienteService.class
+com\kadados\backend\model\Cliente.class
