@@ -1,1 +1,66 @@
-<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>KADados</title><style>body{font-family:Inter,Arial;background:#f4f7fb;color:#0f172a;margin:0;padding:0}header{background:#0b56a6;color:white;padding:20px;text-align:center}.container{max-width:900px;margin:30px auto;padding:20px;background:white;border-radius:8px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}h1{margin:0 0 10px}.form{display:flex;flex-direction:column;gap:10px}input{padding:10px;border-radius:6px;border:1px solid #cbd5e1}button{background:#0b56a6;color:white;padding:10px;border:none;border-radius:6px;cursor:pointer}.small{font-size:13px;color:#475569}</style></head><body><header><h2>KADados</h2></header><div class="container"><h1>Bem-vindo ao KADados</h1><p class="small">Crie sua conta para começar. Você terá um painel bonito e seguro.</p><div id="msg"></div><div class="form"><input id="nome" placeholder="Seu nome"><input id="email" placeholder="Seu email"><input id="senha" placeholder="Senha"><button onclick="cadastrar()">Criar conta</button></div></div><script>const apiUrl = (location.hostname==='localhost')? 'http://localhost:8081' : 'https://seu-backend-url';async function cadastrar(){const nome=document.getElementById('nome').value;const email=document.getElementById('email').value;const senha=document.getElementById('senha').value;const res = await fetch(apiUrl + '/api/clientes/cadastro', {method:'POST',headers:{'Content-Type':'application/json'},body: JSON.stringify({nome, email, senha})});const data = await res.json();if(res.ok){ document.getElementById('msg').innerText='Conta criada com sucesso!'; } else { document.getElementById('msg').innerText= data.error || JSON.stringify(data); }} </script></body></html>
+<!doctype html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width,initial-scale=1'>
+    <title>KADados</title>
+    <style>
+        /* Estilos de Aparência */
+        body { font-family: Inter, Arial, sans-serif; background: #f4f7fb; color: #0f172a; margin: 0; padding: 0; }
+        header { background: #0b56a6; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 400px; margin: 50px auto; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1); }
+        h1 { margin: 0 0 20px; text-align: center; color: #0b56a6; }
+        .form { display: flex; flex-direction: column; gap: 15px; }
+        input { padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; transition: border-color 0.3s; }
+        input:focus { border-color: #0b56a6; outline: none; box-shadow: 0 0 5px rgba(11, 86, 166, 0.3); }
+        button { background: #0b56a6; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background-color 0.3s; }
+        button:hover { background: #084382; }
+        .small { font-size: 14px; color: #475569; text-align: center; margin-top: 15px; }
+        .small a { color: #0b56a6; text-decoration: none; font-weight: 600; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>KADados</h2>
+    </header>
+
+    <div class="container">
+        <h1>Gerenciamento de Cobranças</h1>
+
+        <!-- SEÇÃO DE LOGIN: A caixinha principal. O JS usa este ID -->
+        <div id="login-section">
+            <h2 style="font-size: 1.5rem; text-align: center; margin-bottom: 25px;">Fazer Login</h2>
+            
+            <!-- FORMULÁRIO DE LOGIN. O JS usa este ID -->
+            <form id="login-form" class="form">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Senha" required>
+                <button type="submit">Entrar</button>
+            </form>
+        </div>
+
+        <!-- SEÇÃO DE CADASTRO: A caixinha principal. O JS usa este ID -->
+        <div id="register-section">
+            <h2 style="font-size: 1.5rem; text-align: center; margin-bottom: 25px;">Cadastre-se</h2>
+
+            <!-- FORMULÁRIO DE CADASTRO. O JS usa este ID -->
+            <form id="register-form" class="form">
+                <input type="text" name="name" placeholder="Seu Nome Completo" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Criar Senha" required>
+                <button type="submit">Criar Conta</button>
+            </form>
+        </div>
+        
+        <!-- LINK PARA TROCA. O JS usa este ID para saber onde clicar e trocar as telas -->
+        <p class="small">
+            Não tem uma conta? 
+            <a href="#" id="switch-link">Cadastre-se</a>
+        </p>
+
+    </div>
+
+    <!-- CÓDIGO FINAL E MAIS IMPORTANTE: Carrega o app.js que você acabou de criar -->
+    <script src="app.js"></script>
+</body>
+</html>
