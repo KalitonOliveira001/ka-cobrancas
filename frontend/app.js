@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
         listarClientes(); 
     }
 
-    // Por enquanto, para testar a listagem, vamos simular o login
-    // REMOVA esta linha APÓS implementarmos a lógica de Login/Cadastro
-    showAppScreen(); // <-- REMOVA APÓS IMPLEMENTAR LOGIN REAL
+    // >>>>>>>>>> CORREÇÃO TEMPORÁRIA: FORÇAR A TELA DO APLICATIVO PARA TESTAR A CONEXÃO <<<<<<<<<<
+    showAppScreen();
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 });
 
 // ----------------------------------------------------
@@ -110,15 +110,32 @@ function listarClientes() {
         })
         .catch(error => {
             console.error('Erro ao buscar clientes:', error);
-            tabelaCorpo.innerHTML = `<tr><td colspan="4" style="color: red; padding: 10px;">ERRO DE CONEXÃO: ${error.message}. Verifique os logs do Railway.</td></tr>`;
+            tabelaCorpo.innerHTML = `<tr><td colspan="4" style="color: red; padding: 10px;">ERRO DE CONEXÃO: ${error.message}. Verifique os logs do Railway e a regra CORS no Backend.</td></tr>`;
         });
 }
 
 // ----------------------------------------------------
 // 4. LÓGICA DE CADASTRO E LOGIN (Esboço)
-// Estas funções serão implementadas no próximo passo
 // ----------------------------------------------------
-// function handleLogin(e) { ... }
-// function handleRegister(e) { ... }
+// Esta será nossa próxima etapa real.
+```
+eof
 
+## 2. Comandos do Terminal (Passo a Passo)
 
+Agora, salve o `app.js` no VS Code e execute os comandos Git na sua pasta `frontend`:
+
+1.  **Adicionar as Mudanças:**
+    ```bash
+    git add .
+    ```
+
+2.  **Criar o Commit:**
+    ```bash
+    git commit -m "fix: Forca exibicao da tela de clientes para teste de conexao"
+    ```
+
+3.  **Enviar para o Railway:**
+    ```bash
+    git push origin main
+    
