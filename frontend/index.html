@@ -3,35 +3,66 @@
 <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width,initial-scale=1'>
-    <title>KADados</title>
+    <title>KADados - Gerenciamento de Cobranças</title>
     <style>
         /* Estilos de Aparência */
         body { font-family: Inter, Arial, sans-serif; background: #f4f7fb; color: #0f172a; margin: 0; padding: 0; }
         header { background: #0b56a6; color: white; padding: 20px; text-align: center; }
-        .container { max-width: 400px; margin: 50px auto; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1); }
         h1 { margin: 0 0 20px; text-align: center; color: #0b56a6; }
+        h2 { color: #4B0082; text-align: center; } 
+        
+        /* Containers */
+        .auth-container { max-width: 400px; margin: 50px auto; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1); }
+        .main-app-container { max-width: 90%; margin: 50px auto; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1); }
+
+        /* Formulário */
         .form { display: flex; flex-direction: column; gap: 15px; }
         input { padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; transition: border-color 0.3s; }
         input:focus { border-color: #0b56a6; outline: none; box-shadow: 0 0 5px rgba(11, 86, 166, 0.3); }
+        
+        /* Botões */
         button { background: #0b56a6; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background-color 0.3s; }
         button:hover { background: #084382; }
+
+        /* Links de Alternância */
         .small { font-size: 14px; color: #475569; text-align: center; margin-top: 15px; }
         .small a { color: #0b56a6; text-decoration: none; font-weight: 600; cursor: pointer; }
+
+        /* Estilos da Tabela */
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #f0f4f8; color: #1e293b; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        
+        /* Estilos específicos de botões na tabela */
+        .action-button { 
+            padding: 8px 12px; 
+            margin-right: 5px; 
+            border: none; 
+            border-radius: 5px; 
+            color: white; 
+            cursor: pointer; 
+            transition: opacity 0.2s;
+        }
+        .action-button:hover { opacity: 0.8; }
+        .btn-edit { background-color: #4B0082; } /* Roxo Escuro */
+        .btn-delete { background-color: #B71C1C; } /* Vermelho Escuro */
     </style>
 </head>
 <body>
     <header>
-        <h2>KADados</h2>
+        <h2>KADados - Gerenciamento de Cobranças</h2>
     </header>
 
-    <div class="container">
-        <h1>Gerenciamento de Cobranças</h1>
-
-        <!-- SEÇÃO DE LOGIN: A caixinha principal. O JS usa este ID -->
+    <!-- 
+        1. SEÇÃO DE AUTENTICAÇÃO (LOGIN / CADASTRO)
+        Esta seção será escondida pelo JS após o login bem-sucedido.
+    -->
+    <div id="auth-container" class="auth-container">
+        
+        <!-- SEÇÃO DE LOGIN -->
         <div id="login-section">
-            <h2 style="font-size: 1.5rem; text-align: center; margin-bottom: 25px;">Fazer Login</h2>
-            
-            <!-- FORMULÁRIO DE LOGIN. O JS usa este ID -->
+            <h2 style="font-size: 1.5rem; margin-bottom: 25px;">Fazer Login</h2>
             <form id="login-form" class="form">
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="password" name="password" placeholder="Senha" required>
@@ -39,11 +70,9 @@
             </form>
         </div>
 
-        <!-- SEÇÃO DE CADASTRO: A caixinha principal. O JS usa este ID -->
-        <div id="register-section">
-            <h2 style="font-size: 1.5rem; text-align: center; margin-bottom: 25px;">Cadastre-se</h2>
-
-            <!-- FORMULÁRIO DE CADASTRO. O JS usa este ID -->
+        <!-- SEÇÃO DE CADASTRO -->
+        <div id="register-section" style="display: none;"> <!-- Escondido por padrão -->
+            <h2 style="font-size: 1.5rem; margin-bottom: 25px;">Cadastre-se</h2>
             <form id="register-form" class="form">
                 <input type="text" name="name" placeholder="Seu Nome Completo" required>
                 <input type="email" name="email" placeholder="Email" required>
@@ -52,15 +81,43 @@
             </form>
         </div>
         
-        <!-- LINK PARA TROCA. O JS usa este ID para saber onde clicar e trocar as telas -->
+        <!-- LINK PARA TROCA -->
         <p class="small">
-            Não tem uma conta? 
+            <span id="auth-message">Não tem uma conta?</span>
             <a href="#" id="switch-link">Cadastre-se</a>
         </p>
-
     </div>
 
-    <!-- CÓDIGO FINAL E MAIS IMPORTANTE: Carrega o app.js que você acabou de criar -->
+
+    <!-- 
+        2. SEÇÃO PRINCIPAL DO APLICATIVO (CLIENTES)
+        Esta seção é onde a listagem será exibida. Ela está escondida (display: none) por padrão.
+    -->
+    <div id="app-container" class="main-app-container" style="display: none;">
+        <h2 style="text-align: left;">Gerenciamento de Clientes</h2>
+        
+        <button onclick="listarClientes()" style="margin-bottom: 15px; background-color: #0b56a6;">
+            Recarregar Clientes
+        </button>
+        
+        <!-- TABELA DE CLIENTES -->
+        <table id="clientes-table">
+            <thead>
+                <tr> 
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <!-- ESTE É O CORPO (ID CRUCIAL) QUE O JS PREENCHE -->
+            <tbody id="clientes-tabela-corpo">
+                <tr><td colspan="4" style="text-align: center; padding: 20px;">Use a tela de Login/Cadastro acima.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- CÓDIGO FINAL E MAIS IMPORTANTE: Carrega o app.js -->
     <script src="app.js"></script>
 </body>
 </html>
