@@ -8,9 +8,32 @@ import java.util.Optional;
 
 @Service
 public class ClienteService {
-    private final ClienteRepository repo;
-    public ClienteService(ClienteRepository repo){this.repo=repo;}
-    public List<Cliente> listar(){return repo.findAll();}
-    public Cliente salvar(Cliente c){return repo.save(c);}
-    public Optional<Cliente> porEmail(String email){return repo.findByEmail(email);}
+
+    private final ClienteRepository repository;
+
+   
+    public ClienteService(ClienteRepository repository) {
+        this.repository = repository;
+    }
+
+    public List<Cliente> listar() {
+        return repository.findAll();
+    }
+
+    
+    public Optional<Cliente> porId(Long id) {
+        return repository.findById(id);
+    }
+
+    public Optional<Cliente> porEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
+    public Cliente salvar(Cliente c) {
+        return repository.save(c);
+    }
+
+    public void remover(Long id) {
+        repository.deleteById(id);
+    }
 }
