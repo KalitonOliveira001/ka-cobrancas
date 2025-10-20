@@ -54,13 +54,8 @@
         <h2>KADados - Gerenciamento de Cobranças</h2>
     </header>
 
-    <!-- 
-        1. SEÇÃO DE AUTENTICAÇÃO (LOGIN / CADASTRO)
-        Esta seção será escondida pelo JS após o login bem-sucedido.
-    -->
     <div id="auth-container" class="auth-container">
         
-        <!-- SEÇÃO DE LOGIN -->
         <div id="login-section">
             <h2 style="font-size: 1.5rem; margin-bottom: 25px;">Fazer Login</h2>
             <form id="login-form" class="form">
@@ -70,8 +65,7 @@
             </form>
         </div>
 
-        <!-- SEÇÃO DE CADASTRO -->
-        <div id="register-section" style="display: none;"> <!-- Escondido por padrão -->
+        <div id="register-section" style="display: none;"> 
             <h2 style="font-size: 1.5rem; margin-bottom: 25px;">Cadastre-se</h2>
             <form id="register-form" class="form">
                 <input type="text" name="name" placeholder="Seu Nome Completo" required>
@@ -81,7 +75,6 @@
             </form>
         </div>
         
-        <!-- LINK PARA TROCA -->
         <p class="small">
             <span id="auth-message">Não tem uma conta?</span>
             <a href="#" id="switch-link">Cadastre-se</a>
@@ -89,10 +82,6 @@
     </div>
 
 
-    <!-- 
-        2. SEÇÃO PRINCIPAL DO APLICATIVO (CLIENTES)
-        Esta seção é onde a listagem será exibida. Ela está escondida (display: none) por padrão.
-    -->
     <div id="app-container" class="main-app-container" style="display: none;">
         <h2 style="text-align: left;">Gerenciamento de Clientes</h2>
         
@@ -100,7 +89,6 @@
             Recarregar Clientes
         </button>
         
-        <!-- TABELA DE CLIENTES -->
         <table id="clientes-table">
             <thead>
                 <tr> 
@@ -110,14 +98,12 @@
                     <th>Ações</th>
                 </tr>
             </thead>
-            <!-- ESTE É O CORPO (ID CRUCIAL) QUE O JS PREENCHE -->
             <tbody id="clientes-tabela-corpo">
-                <tr><td colspan="4" style="text-align: center; padding: 20px;">Use a tela de Login/Cadastro acima.</td></tr>
+                <tr><td colspan="4" style="text-align: center; padding: 20px;">Carregando...</td></tr>
             </tbody>
         </table>
     </div>
 
-    <!-- CÓDIGO FINAL E MAIS IMPORTANTE: Carrega o app.js -->
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
