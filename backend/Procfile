@@ -1,1 +1,0 @@
-web: mvn clean install -DskipTests && java -jar target/ka-backend-1.0.0.jar
