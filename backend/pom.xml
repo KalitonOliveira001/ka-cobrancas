@@ -75,6 +75,19 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            
+            <!-- CORREÇÃO: Desativa a execução padrão do maven-resources-plugin para evitar MojoExecutionException -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <!-- Pula a execução padrão, pois o Spring Boot já lida com o empacotamento de recursos -->
+                        <id>default-resources</id> 
+                        <phase>none</phase> 
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
