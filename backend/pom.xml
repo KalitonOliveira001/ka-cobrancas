@@ -77,4 +77,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <!-- ESTE É O LOCAL CORRETO PARA O BLOCO <profiles> -->
+    <profiles>
+        <profile>
+            <id>production</id>
+            <!-- Apenas definindo o ID para satisfazer o Railpack/Maven -->
+        </profile>
+    </profiles>
+
 </project>
