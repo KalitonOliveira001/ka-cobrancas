@@ -1,9 +1,11 @@
 // ----------------------------------------------------
 // 1. CONFIGURAÇÃO BASE
 // ----------------------------------------------------
-// VERIFIQUE SE ESTA URL ESTÁ CORRETA (Backend - Ka-Cobrancas)
-// Se o seu backend mudou de nome, você deve mudar AQUI.
+// URL CORRIGIDA PARA O SEU BACKEND.
 const API_URL = 'https://ka-cobrancas-production.up.railway.app'; 
+
+// Versão de Cache para forçar a atualização no navegador
+const APP_VERSION = '1.1'; // Atualização para forçar o recarregamento
 
 // Variáveis de estado
 let logado = false;
@@ -17,12 +19,20 @@ function showAuthScreen() {
     authToken = null;
     document.getElementById('auth-container').style.display = 'block';
     document.getElementById('app-container').style.display = 'none';
+    const logoutButton = document.getElementById('logout-button');
+    if (logoutButton) {
+        logoutButton.classList.add('hidden'); // Esconde o botão Sair
+    }
 }
 
 function showAppScreen() {
     logado = true; 
     document.getElementById('auth-container').style.display = 'none';
     document.getElementById('app-container').style.display = 'block';
+    const logoutButton = document.getElementById('logout-button');
+    if (logoutButton) {
+        logoutButton.classList.remove('hidden'); // Mostra o botão Sair
+    }
     // Tenta carregar os clientes assim que a tela principal é mostrada
     listarClientes(); 
 }
@@ -72,7 +82,10 @@ async function handleRegister(event) {
         if (response.ok) {
             showMessage(form, 'Cadastro realizado com sucesso! Faça login.', false);
             // Após o cadastro, muda para a tela de login
-            document.getElementById('switch-link').click(); 
+            const switchLink = document.getElementById('switch-link');
+            if (switchLink) {
+                switchLink.click(); 
+            }
         } else {
             // Se o servidor retornar uma mensagem de erro, exibe
             const errorMessage = result.message || 'Erro no cadastro. Tente novamente.';
@@ -145,7 +158,7 @@ window.listarClientes = function() {
     }) 
     .then(resposta => {
         if (resposta.status === 401 || resposta.status === 403) {
-             throw new Error('Não autorizado. Faça login novamente.');
+            throw new Error('Não autorizado. Faça login novamente.');
         }
         if (!resposta.ok) {
             throw new Error(`Erro ${resposta.status}: Falha ao buscar dados.`);
@@ -156,8 +169,8 @@ window.listarClientes = function() {
         tabelaCorpo.innerHTML = ''; 
 
         if (clientes.length === 0) {
-             tabelaCorpo.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 10px;">Nenhum cliente cadastrado.</td></tr>';
-             return;
+            tabelaCorpo.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 10px;">Nenhum cliente cadastrado.</td></tr>';
+            return;
         }
 
         // 2. Preenche a tabela com os clientes
@@ -172,13 +185,21 @@ window.listarClientes = function() {
             const celulaAcoes = linha.insertCell();
             celulaAcoes.style.textAlign = 'center';
             
+            // Botão EDITAR (sem funcionalidade ainda)
             const btnEditar = document.createElement('button');
             btnEditar.textContent = 'Editar';
             btnEditar.className = 'action-button bg-yellow-500 hover:bg-yellow-600';
+            btnEditar.addEventListener('click', () => {
+                alert(`Funcionalidade de Edição do Cliente ${cliente.nome} (ID: ${cliente.id})`);
+            });
             
+            // Botão EXCLUIR (sem funcionalidade ainda)
             const btnExcluir = document.createElement('button');
             btnExcluir.textContent = 'Excluir';
             btnExcluir.className = 'action-button bg-red-500 hover:bg-red-600 ml-2';
+            btnExcluir.addEventListener('click', () => {
+                alert(`Funcionalidade de Exclusão do Cliente ${cliente.nome} (ID: ${cliente.id})`);
+            });
             
             celulaAcoes.appendChild(btnEditar);
             celulaAcoes.appendChild(btnExcluir);
@@ -219,30 +240,29 @@ window.onload = function() {
         registerForm.addEventListener('submit', handleRegister);
     }
 
-
     // Lógica para alternar entre Login e Cadastro
     if (switchLink) {
         switchLink.addEventListener('click', (e) => {
             e.preventDefault();
             
             // Remove qualquer mensagem de erro ao trocar de formulário
-            const loginMsg = loginForm.querySelector('.form-message');
+            const loginMsg = loginForm ? loginForm.querySelector('.form-message') : null;
             if(loginMsg) loginMsg.remove();
-            const registerMsg = registerForm.querySelector('.form-message');
+            const registerMsg = registerForm ? registerForm.querySelector('.form-message') : null;
             if(registerMsg) registerMsg.remove();
             
             if (loginSection && loginSection.style.display !== 'none') {
                 // Troca para Cadastro
                 loginSection.style.display = 'none';
-                registerSection.style.display = 'block';
-                authMessage.textContent = 'Já tem uma conta?';
-                switchLink.textContent = 'Faça login';
+                if(registerSection) registerSection.style.display = 'block';
+                if(authMessage) authMessage.textContent = 'Já tem uma conta?';
+                if(switchLink) switchLink.textContent = 'Faça login';
             } else if (loginSection) {
                 // Troca para Login
                 loginSection.style.display = 'block';
-                registerSection.style.display = 'none';
-                authMessage.textContent = 'Não tem uma conta?';
-                switchLink.textContent = 'Cadastre-se';
+                if(registerSection) registerSection.style.display = 'none';
+                if(authMessage) authMessage.textContent = 'Não tem uma conta?';
+                if(switchLink) switchLink.textContent = 'Cadastre-se';
             }
         });
     }
