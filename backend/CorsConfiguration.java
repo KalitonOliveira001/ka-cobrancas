@@ -10,23 +10,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfiguration implements WebMvcConfigurer {
 
-    // URL do seu Frontend hospedado no Railway. É a URL que aparece no seu navegador.
-    // DOMÍNIO: zestful-reprieve-production.up.railway.app
-    private static final String FRONTEND_ORIGIN = "https://zestful-reprieve-production.up.railway.app";
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         // Aplica a configuração a todos os endpoints do Backend (/**)
         registry.addMapping("/**")
-            // Permite requisições vindas do domínio do Frontend
-            .allowedOrigins(FRONTEND_ORIGIN)
+            // CORREÇÃO FINAL: Permite requisições de *qualquer* origem (*), resolvendo problemas no Railway.
+            .allowedOrigins("*") 
             // Permite todos os métodos HTTP (GET, POST, PUT, DELETE, etc.)
             .allowedMethods("*")
             // Permite que o cliente inclua cabeçalhos personalizados
-            .allowedHeaders("*")
-            // Permite o envio de credenciais (como cookies ou cabeçalhos de autorização)
-            .allowCredentials(true)
-            // Define por quanto tempo (em segundos) o navegador pode armazenar em cache as informações do CORS
-            .maxAge(3600);
+            .allowedHeaders("*");
+            // Nota: Não podemos usar .allowCredentials(true) junto com .allowedOrigins("*"), então removemos.
     }
 }
